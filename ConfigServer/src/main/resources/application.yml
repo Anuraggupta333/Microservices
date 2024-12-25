@@ -1,0 +1,20 @@
+server:
+  port: 8086
+
+eureka:
+  instance:
+    prefer-ip-address: true
+
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8084/eureka
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Anuraggupta333/microservice-config
+          clone-on-start: true

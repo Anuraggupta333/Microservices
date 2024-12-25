@@ -1,0 +1,40 @@
+server:
+  port: 8085
+
+eureka:
+  instance:
+    prefer-ip-address: true
+
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8084/eureka
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: USERSERVICE
+          uri: lb://USERSERVICE
+          predicates:
+            - Path=/users/**
+
+        - id: HOTELSERVICE
+          uri: lb://HOTELSERVICE
+          predicates:
+            - Path=/hotels/**,/staffs/**
+
+        - id: RATINGSERVICE
+          uri: lb://RATINGSERVICE
+          predicates:
+            - Path=/ratings/**
+      # Okta confriguration
+okta:
+  oauth2:
+    issuer: https://dev-70578451.okta.com/oauth2/default
+    audience: api://default
+    client-id: 0oam4dc6fcMXJ08XL5d7
+    client-secret: syHbTEWoFNWLlfPrayYJ4gP3JVvsNAE4BwIlElmlf8XlJY46f6Dw822sIMVwSFgh
+#    redirect-uri: "http://localhost:8085/login/oauth2/code/okta"
+    scopes: openid, profile, email, offline_access
